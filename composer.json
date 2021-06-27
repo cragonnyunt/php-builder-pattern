@@ -1,0 +1,45 @@
+{
+    "name": "cragonnyunt/php-builder-pattern",
+    "description": "Builder pattern for PHP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Khin Nyunt",
+            "email": "mknyunt97@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.14",
+        "phpunit/phpunit": "^9.5",
+        "phpcompatibility/php-compatibility": "^9.3"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "PHPBuilder\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPBuilder\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility",
+        "post-update-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility",
+        "test": [
+            "@test:style",
+            "@test:unit"
+        ],
+        "test:style": "@php ./vendor/bin/phpcs --report-json=./tests/report/phpcs-quality-report.json `find src/ -type f -name '*.php'` `find tests/ -type f -name '*.php'`",
+        "test:unit": "@php ./vendor/bin/phpunit --coverage-text --colors=never"
+    }
+}
