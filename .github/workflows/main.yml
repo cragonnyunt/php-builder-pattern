@@ -11,6 +11,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    container: devwithlando/php:8.0-fpm-2
 
     steps:
     - uses: actions/checkout@v2
