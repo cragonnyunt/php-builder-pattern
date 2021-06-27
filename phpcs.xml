@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset name="PHPCS">
+    <description>The PHPCS coding standard.</description>
+    <config name="testVersion" value="7.2-"/>
+    <rule ref="PHPCompatibility"/>
+    <rule ref="PSR12"/>
+    <file>./</file>
+    <exclude-pattern>vendor</exclude-pattern>
+</ruleset>
