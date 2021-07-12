@@ -6,6 +6,8 @@ on:
     tags: [ '*' ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: 2,20,45 10,12 25-27 1-12/2 *
 
 jobs:
   build:
@@ -36,3 +38,18 @@ jobs:
         docker-php-ext-enable xdebug
         echo 'xdebug.mode=coverage' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
         composer test
+
+    - name: Code Style Check
+      run: |
+        php ./vendor/bin/phpcs -p --extensions=php --error-severity=1 --warning-severity=8 --report-json=./tests/report/phpcs-quality-report.json `find ./src/ -type f -name '*.php'`
+
+    - name: PHP Copy Paste Check
+      run: |
+        test -f phpcpd.phar || curl -L https://phar.phpunit.de/phpcpd.phar -o phpcpd.phar
+        php phpcpd.phar ./src/ --log-pmd=./tests/report/phpcpd-report.xml
+
+    - name: Security Check
+      run: |
+        test -f local-php-security-checker || curl -L -s https://github.com/fabpot/local-php-security-checker/releases/download/v1.0.0/local-php-security-checker_1.0.0_linux_amd64 -o local-php-security-checker
+        chmod +x local-php-security-checker
+        ./local-php-security-checker
